@@ -30,3 +30,18 @@ func TestIsRange(t *testing.T) {
 		require.Equal(v.node, isRange(v.val, circle))
 	}
 }
+func TestAddNode(t *testing.T) {
+	require := require.New(t)
+
+	nodes := New(100)
+	nodes.AddNode("127.0.0.1:1000")
+	require.Equal(100, len(nodes.nodes))
+	require.Equal(100, len(nodes.orderedCircle))
+	nodes.AddNode("127.0.0.1:1001")
+	require.Equal(200, len(nodes.nodes))
+	require.Equal(200, len(nodes.orderedCircle))
+
+	for i := 0; i < 199; i++ {
+		require.True(nodes.orderedCircle[i] < nodes.orderedCircle[i+1])
+	}
+}
